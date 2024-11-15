@@ -1,6 +1,6 @@
 package data.structures.linkedlist;
 
-public class Code02_ReverseList {
+public class Code02_1_ReverseList {
 
     //定义一个带头节点的单链表，所谓带头节点就是头节点不存放数据，只包含一个指向下一个节点的指针（同理可知不带头节点就是链表的第一个节点存放数据）
     final Node head = new Node(null);
@@ -148,7 +148,7 @@ public class Code02_ReverseList {
 //        list.list();
 
 
-        Code02_ReverseList list1 = new Code02_ReverseList();
+        Code02_1_ReverseList list1 = new Code02_1_ReverseList();
         Node node11 = new Node(11);
         Node node12 = new Node(12);
         Node node13 = new Node(13);
