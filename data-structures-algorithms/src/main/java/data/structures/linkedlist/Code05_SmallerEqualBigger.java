@@ -24,7 +24,7 @@ public class Code05_SmallerEqualBigger {
         return head;
     }
 
-    public void list(Node head) {
+    public void list() {
         Node t = head;
         while (t.next != null) {
             System.out.println(t.next.value);
@@ -39,7 +39,7 @@ public class Code05_SmallerEqualBigger {
      * @param pivot
      * @return
      */
-    public static Node listPartition(Node head, int pivot) {
+    public static void listPartition(Node head, int pivot) {
         Node sh = null;  //小于部分的首节点
         Node st = null;  //小于部分的尾节点
         Node eh = null;  //等于部分的首节点
@@ -47,13 +47,17 @@ public class Code05_SmallerEqualBigger {
         Node bh = null;  //大于部分的首节点
         Node bt = null;  //大于部分的尾节点 用不到
         Node t = head.next;
+        Node next = null;
         while (t != null) {
+            next = t.next;
+            //这一步很关键
+            t.next = null;
             if (t.value < pivot) {
                 if (sh == null) {
                     sh = t;
                     st = t;
                 } else {
-                    sh.next = t;
+                    st.next = t;
                     st = t;
                 }
             } else if (t.value == pivot) {
@@ -61,19 +65,19 @@ public class Code05_SmallerEqualBigger {
                     eh = t;
                     et = t;
                 } else {
-                    eh.next = t;
+                    et.next = t;
                     et = t;
                 }
             } else {
                 if (bh == null) {
                     bh = t;
-                    bt = t.next;
+                    bt = t;
                 } else {
-                    bh.next = t;
-                    bt = t.next;
+                    bt.next = t;
+                    bt = t;
                 }
             }
-            t = t.next;
+            t = next;
         }
         if (sh != null) {
             head.next = sh;
@@ -91,7 +95,6 @@ public class Code05_SmallerEqualBigger {
                 head.next = bh;
             }
         }
-        return head;
     }
 
     public static void main(String[] args) {
@@ -105,10 +108,10 @@ public class Code05_SmallerEqualBigger {
         bigger.add(new Node(10));
         bigger.add(new Node(50));
 
-        bigger.list(bigger.head);
+        bigger.list();
 
         System.out.println("----------------------------------");
-        Node node = listPartition(bigger.head, 50);
-        bigger.list(node);
+        listPartition(bigger.head, 30);
+        bigger.list();
     }
 }
