@@ -46,6 +46,7 @@ public class Code05_SmallerEqualBigger {
         Node et = null;  //等于部分的尾节点
         Node bh = null;  //大于部分的首节点
         Node bt = null;  //大于部分的尾节点 用不到
+        //带头结点的
         Node t = head.next;
         Node next = null;
         while (t != null) {
