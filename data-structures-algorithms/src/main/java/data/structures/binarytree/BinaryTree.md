@@ -106,5 +106,40 @@ public void recursion(Node head) {
 
 ## 06 练习题
 ### 给定二叉树的两个节点node1和node2，找到它们的最低公共祖先节点
+【解题方案】   
+【方案一】      
+1. 将所有节点及其对应的父节点放到map中
+2. 新建一个Set集合，从node1开始向上遍历，将node1、node1的父、父的父、直到head节点全部放进Set集合中   
+3. 从node2开始向上遍历，并检查是否在Set集合中，如果在，那么该节点就是node1和node2的最低公共祖先
+
+【方案二】   
+1. 两个节点的最低公共祖先有两种情况：   
+1.1 node1是node2的最低公共祖先，或者node2是node1的最低公共祖先   
+1.2 node1、node2不互为公共祖先，向上找，找到公共祖先   
+2. 代码如lowestAncestor2   
+### 在二叉树中找到一个节点的后继节点     
+现在有一种新的二叉树节点类型如下：   
+```java
+    public class Node1 {
+        public int value;
+        public Node1 left;
+        public Node1 right;
+        public Node1 parent;
+
+        public Node1(int value) {
+            this.value = value;
+        }
+    }
+```    
+该结构比普通二叉树节点结构多了一个指向父节点的parent指针。假设有一颗Node1类型的节点组成的二叉树，树中每个节点的parent指针都正确的指向自己的父节点，头节点的parent指向null。   
+只给一个在二叉树中的某个节点node，请实现返回node节点的后继节点的函数。   
+在二叉树的中序遍历的序列中，node的下一个节点叫做node的后继节点。
+
+【解题方案】   
+【方案一】使用中序遍历，将遍历结果保存到数组中或其他数据结构中，然后查找  
+【方案二】  
+1. 如果节点x有右子树，那么它的后继结点就是右子树上最左的叶子节点   
+2. 如果节点x没有右子树，它的后继结点有两种情况：   
+2.1 
 
 
