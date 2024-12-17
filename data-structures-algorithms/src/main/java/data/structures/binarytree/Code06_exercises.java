@@ -1,9 +1,6 @@
 package data.structures.binarytree;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Code06_exercises {
     public class Node<V> {
@@ -77,4 +74,66 @@ public class Code06_exercises {
             this.value = value;
         }
     }
+
+    //查找节点node的后继节点
+    public Node1 getSuccessorNode(Node1 node) {
+        if (node == null) {
+            return null;
+        }
+        //如果node有右子树
+        if (node.right != null) {
+            return getLeftmost(node.right);
+        } else {
+            //如果node没有右子树
+            Node1 parent = node.parent;
+            while (parent != null && parent.left != node) {//当前节点是其父亲的右孩子
+                node = parent;
+                parent = node.parent;
+            }
+            return parent;
+        }
+    }
+
+    private Node1 getLeftmost(Node1 node1) {
+        if (node1 == null) {
+            return null;
+        }
+        while (node1.left != null) {
+            node1 = node1.left;
+        }
+        return node1;
+    }
+
+    //二叉树的序列化（先序遍历的序列化）
+    public String serialByPre(Node head) {
+        if (head == null) {
+            return "#_";
+        }
+        String res = head.value + "_";
+        res += serialByPre(head.left);
+        res += serialByPre(head.right);
+        return res;
+    }
+
+    //二叉树的反序列化（先序遍历的反序列化）
+    public Node reconByPreString(String preStr) {
+        String[] split = preStr.split("_");
+        Queue<String> queue = new LinkedList<>();
+        for (int i = 0; i < split.length; i++) {
+            queue.add(split[i]);
+        }
+        return reconPreOrder(queue);
+    }
+
+    private Node reconPreOrder(Queue<String> queue) {
+        String value = queue.poll();
+        if ("#".equals(value)) {
+            return null;
+        }
+        Node head = new Node(Integer.valueOf(value));
+        head.left = reconPreOrder(queue);
+        head.right = reconPreOrder(queue);
+        return head;
+    }
+
 }
