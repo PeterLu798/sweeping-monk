@@ -25,3 +25,39 @@
 要求：insert、delete、getRandom的时间复杂度都是O(1)   
 代码：[RandomPool.java](RandomPool.java)
 ### 题目四：布隆过滤器
+#### 位图
+1. 1B = 8 bit
+2. 一个int占4B, 一个long占8B
+3. bit(位)，表示二进制位
+4. B即byte，字节。是计算机计算存储空间大小的最小单位
+```java
+public class BitMap {
+    public static void main(String[] args) {
+        //下面申明的arr最多可以容纳 8*4*10 = 320bit，也就是说最多可以容纳320个位
+        int[] arr = new int[10];
+        //获取第i位的状态，如获取第178bit的状态
+        int i = 178;
+        int numIndex = i / 32;
+        int bitIndex = i % 32;
+        int state = (arr[numIndex] >> bitIndex) & 1;
+        //把第i位的状态改成1
+        arr[numIndex] = arr[numIndex] | (1 << bitIndex);
+        //把第i位的状态改成0
+        arr[numIndex] = arr[numIndex] & (~(1 << bitIndex));
+    }
+}
+```
+#### 布隆过滤器适用场景
+1. 亿级以上数据的黑白名单
+2. 判断某一个数据是否在一个庞大的数据集中
+#### 布隆过滤器设计思路
+1. 假设数据集的样本量为n，允许的失误率为p。
+2. 先将数据集中的每条数据用k个哈希函数计算哈希值，然后将这k个哈希值分别 %m (m单位为bit)，得到k个值，这k个值一定在0~m-1范围内   
+3. 将这k个值的状态在位图m中标记出来
+4. 查询x在不在数据集中：将x也分别用k个哈希函数计算哈希值，然后查询位图m中这k个位置的状态，如果状态都为1，那么说明x在数据集中
+5. 布隆过滤器有一定的误差，这个误差是，假如x不在集合中，会误计算在集合中。但是假如x在集合中，布隆过滤器一定不会得出不在的结果。
+6. 式中的p、k、m如何计算：     
+6.1 数据样本量n是确定的，失误率p是可以事先规定好的，那么来计算k、m的值：    
+6.2 m = -(n * ln(p)) / (ln(2))^2   
+6.3 k = ln(2) * m/n = 0.7 * m/n个     
+6.4 p = (1 - e^(-n*k/m))^k
